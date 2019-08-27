@@ -1,10 +1,14 @@
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -Werror -g -std=c++11
 
-app: app.o puzzle.o
-	$(CXX) $(CXXFLAGS) -o app app.o puzzle.o
+SRC = main.cpp puzzle.cpp
+OBJ = $(SRC:.cpp=.o)
+EXEC = main
 
-app.o: app.cpp puzzle.h
-	$(CXX) $(CXXFLAGS) -c app.cpp
+all: $(EXEC)
 
-puzzle.o: puzzle.h
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJ)
+
+clean:
+	rm -rf $(OBJ) $(EXEC)
