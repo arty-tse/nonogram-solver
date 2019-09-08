@@ -19,7 +19,7 @@ std::vector<std::vector<char>> Puzzle::solve()
         std::vector<char> row;
         for (int j = 0; j < s_nCols; ++j)
         {
-            row.push_back(' ');
+            row.push_back('?');
         }
         solved.push_back(row);
     }
@@ -28,15 +28,12 @@ std::vector<std::vector<char>> Puzzle::solve()
     for (int i = 0; i < s_nRows; ++i)
     {
         std::vector<int> clue = s_rows[i];
-        int sum = 0;
+        int sum = clue.size() - 1;
         for (int j = 0; j < clue.size(); ++j)
         {
             sum += clue[j];
-            if (j > 0)
-            {
-                ++sum;
-            }
         }
+
         if (sum == s_nCols)
         {
             int j = 0;
@@ -44,10 +41,14 @@ std::vector<std::vector<char>> Puzzle::solve()
             {
                 for (int l = 0; l < clue[k]; ++l)
                 {
-                    solved[i][j] = '*';
+                    solved[i][j] = 'X';
                     ++j;
                 }
-                ++j;
+                if (j < sum)
+                {
+                    solved[i][j] = ' ';
+                    ++j;
+                }
             }
         }
     }
@@ -55,15 +56,12 @@ std::vector<std::vector<char>> Puzzle::solve()
     for (int i = 0; i < s_nCols; ++i)
     {
         std::vector<int> clue = s_cols[i];
-        int sum = 0;
+        int sum = clue.size() - 1;
         for (int j = 0; j < clue.size(); ++j)
         {
             sum += clue[j];
-            if (j > 0)
-            {
-                ++sum;
-            }
         }
+
         if (sum == s_nRows)
         {
             int j = 0;
@@ -71,10 +69,14 @@ std::vector<std::vector<char>> Puzzle::solve()
             {
                 for (int l = 0; l < clue[k]; ++l)
                 {
-                    solved[j][i] = '*';
+                    solved[j][i] = 'X';
                     ++j;
                 }
-                ++j;
+                if (j < sum)
+                {
+                    solved[j][i] = ' ';
+                    ++j;
+                }
             }
         }
     }
